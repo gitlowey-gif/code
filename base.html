@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}BuyHire{% endblock %}</title>
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+</head>
+
+<body class="site-bg">
+
+    <!-- Navbar -->
+    <header>
+        {% include "navbar.html" %}
+    </header>
+
+    <!-- Global back button -->
+    <a href="#" class="global-back" onclick="goBack(event)" aria-label="Go back to previous page">
+        ← Back
+    </a>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-container">
+              {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Main content block -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        {% include "footer.html" %}
+    </footer>
+
+    <!-- ========================= -->
+    <!-- Accessibility & UI Scripts -->
+    <!-- ========================= -->
+    <script>
+      // Apply accessibility settings on page load
+      document.addEventListener("DOMContentLoaded", function () {
+          applyAccessibilitySettings();
+      });
+
+      function applyAccessibilitySettings() {
+          const fontSize = localStorage.getItem("fontSize");
+          const contrast = localStorage.getItem("contrastMode");
+          const readableFont = localStorage.getItem("readableFont");
+
+          if (fontSize) document.documentElement.style.fontSize = fontSize + "%";
+          if (contrast === "enabled") document.body.classList.add("high-contrast");
+          if (readableFont === "enabled") document.body.classList.add("readable-font");
+      }
+
+      // Set text size
+      function setFontSize(size) {
+          localStorage.setItem("fontSize", size);
+          document.documentElement.style.fontSize = size + "%";
+      }
+
+      // Toggle high contrast mode
+      function toggleContrast() {
+          document.body.classList.toggle("high-contrast");
+          localStorage.setItem(
+              "contrastMode",
+              document.body.classList.contains("high-contrast") ? "enabled" : "disabled"
+          );
+      }
+
+      // Toggle readable font
+      function toggleReadableFont() {
+          document.body.classList.toggle("readable-font");
+          localStorage.setItem(
+              "readableFont",
+              document.body.classList.contains("readable-font") ? "enabled" : "disabled"
+          );
+      }
+    </script>
+
+    <!-- Global back button functionality -->
+    <script>
+      function goBack(event) {
+          event.preventDefault();
+          if (window.history.length > 1) {
+              window.history.back();
+          } else {
+              window.location.href = "/";
+          }
+      }
+    </script>
+
+    <!-- Hide back button on homepage -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          if (window.location.pathname === "/") {
+              const backBtn = document.querySelector(".global-back");
+              if (backBtn) backBtn.style.display = "none";
+          }
+      });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="booking-container">
+
+    <!-- page header -->
+    <h1 class="homepage-header">BOOK {{ tool.upper() }}</h1>
+
+    <div class="booking-row">
+
+        <!-- tool Image display -->
+        <div class="booking-image">
+            <img src="/static/{{ tool.upper() }}.png" alt="{{ tool }} tool">
+        </div>
+
+        <!-- tool Description Box -->
+        <div class="description-box">
+            <h3>About This Tool</h3>
+            <p>
+                This professional-grade tool is designed to support your creative
+                and business needs. Reliable, high-quality, and easy to use,
+                it ensures excellent performance for your projects.
+            </p>
+            <ul>
+                <li>✔ Professional quality</li>
+                <li>✔ Fully tested before rental</li>
+                <li>✔ Easy setup</li>
+                <li>✔ Flexible rental options</li>
+            </ul>
+        </div>
+
+        <!-- booking Form -->
+        <div class="booking-form-wrapper">
+            <form method="POST" class="booking-form">
+
+                <input type="text" name="full_name" placeholder="Full name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="address" placeholder="Address" class="address-input" required>
+                <input type="date" name="booking_date" required>
+                <input type="number" name="hours" id="hours" placeholder="hours" min="1" required>
+
+                <!-- Display total cost dynamically -->
+                <div class="total">
+                    Total: £<span id="total">{{ base_rate }}</span>
+                </div>
+
+                <button type="submit">Confirm Booking</button>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- hidden input to pass base rate to JS -->
+<input type="hidden" id="baseRate" value="{{ base_rate }}">
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    // grab elements and base rate
+    let baseRate = Number(document.getElementById("baseRate").value);
+    const hoursInput = document.getElementById("hours");
+    const totalDisplay = document.getElementById("total");
+
+    // update total when hours change 
+    hours.addEventListener("input", function() {
+        let hours = parseInt(this.value) || 0;
+        totalDisplay.innerText = hours * baseRate;
+    });
+
+});
+</script>
+
+{% endblock %}

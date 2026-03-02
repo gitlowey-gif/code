@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Accessibility settings container -->
+<div class="accessibility-container">
+    <h2>Accessibility Settings</h2>
+
+    <!-- Text size controls -->
+    <div class="setting">
+        <label>Text Size</label>
+        <div class="buttons">
+            <button onclick="setFontSize(90)">Small</button>
+            <button onclick="setFontSize(100)">Normal</button>
+            <button onclick="setFontSize(115)">Large</button>
+            <button onclick="setFontSize(130)">Extra Large</button>
+        </div>
+    </div>
+
+    <!-- Contrast mode toggle -->
+    <div class="setting">
+        <label>Contrast Mode</label>
+        <button onclick="toggleContrast()">Toggle High Contrast</button>
+    </div>
+
+    <!-- Font style toggle for readability -->
+    <div class="setting">
+        <label>Readable Font</label>
+        <button onclick="toggleReadableFont()">Toggle Font</button>
+    </div>
+
+</div>
+
+{% endblock %}

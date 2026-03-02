@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="booking-container">
+
+    <!-- page header -->
+    <h1 class="homepage-header">BOOK {{ space.upper() }}</h1>
+
+    <div class="booking-row">
+
+        <!-- tool Image display -->
+        <div class="booking-image">
+            <img src="/static/{{ space.upper() }}.png" alt="{{ space }} space">
+        </div>
+
+        <!-- tool Description Box -->
+        <div class="description-box">
+            <h3>About This Space</h3>
+            <p>
+                This spacious and well-lit room is designed to support a wide range of 
+                creative and professional activities. With generous floor space, natural lighting, 
+                modern interior finishes, and comfortable surroundings, it provides the 
+                perfect environment for meetings, content creation, workshops, or focused work sessions.
+            </p>
+            <ul>
+                <li>✔ High-speed WiFi</li>
+                <li>✔ Power outlets throughout</li>
+                <li>✔ Climate control</li>
+                <li>✔ Secure & welcoming environment</li>
+            </ul>
+        </div>
+
+        <!-- booking Form -->
+        <div class="booking-form-wrapper">
+            <form method="POST" class="booking-form">
+
+                <input type="text" name="full_name" placeholder="Full name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="address" placeholder="Address" class="address-input" required>
+                <input type="date" name="booking_date" required>
+                <input type="number" name="hours" id="hours" min="1" value="1" required>
+
+                <!-- Display total cost dynamically -->
+                <div class="total">
+                    Total: £<span id="total">{{ base_rate }}</span>
+                </div>
+
+                <button type="submit">Confirm Booking</button>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- hidden input to pass base rate to JS -->
+<input type="hidden" id="baseRate" value="{{ base_rate }}">
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    // grab elements and base rate
+    let baseRate = Number(document.getElementById("baseRate").value);
+    const hoursInput = document.getElementById("hours");
+    const totalDisplay = document.getElementById("total");
+
+    // update total when hours change
+    hoursInput.addEventListener("input", function() {
+        let hours = parseInt(this.value) || 0;
+        totalDisplay.innerText = hours * baseRate;
+    });
+
+});
+</script>
+
+{% endblock %}
